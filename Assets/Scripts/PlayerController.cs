@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck, mao;
     public bool isAttack;
     public GameObject hitBoxPrefab;
+    private GameController _gameController;
 
     private void Start()
     {
+        _gameController = FindObjectOfType(typeof(GameController)) as GameController;
+        _gameController.playerTransformer = this.transform;
         playerRb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
     }
