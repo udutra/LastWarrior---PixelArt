@@ -143,6 +143,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: isAttack
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -192,7 +198,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -8237204318646508481}
-    m_Position: {x: 500, y: -20, z: 0}
+    m_Position: {x: 500, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -653253819843564652}
     m_Position: {x: 500, y: 140, z: 0}
@@ -201,7 +207,7 @@ AnimatorStateMachine:
     m_Position: {x: 750, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4243605596514641730}
-    m_Position: {x: 500, y: 40, z: 0}
+    m_Position: {x: 500, y: -30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 7284871096587925736}
@@ -211,7 +217,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 300, y: 10, z: 0}
   m_EntryPosition: {x: 300, y: 150, z: 0}
-  m_ExitPosition: {x: 780, y: 20, z: 0}
+  m_ExitPosition: {x: 770, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -653253819843564652}
 --- !u!1101 &1098375115963694487
@@ -329,6 +335,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isGrounded
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isAttack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4243605596514641730}
   m_Solo: 0
@@ -359,7 +368,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
+  m_ExitTime: 0
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

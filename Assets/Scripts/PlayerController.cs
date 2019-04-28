@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     public float speed, jumpForce;
     public bool isLookLeft, isGrounded;
     public Animator playerAnimator;
-    public Transform groundCheck;
+    public Transform groundCheck, mao;
+    public bool isAttack;
+    public GameObject hitBoxPrefab;
 
     private void Start()
     {
@@ -19,6 +21,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         float h = Input.GetAxisRaw("Horizontal");
+
+        if (isAttack && isGrounded)
+        {
+            h = 0;
+        }
 
         if ((h > 0 && isLookLeft) || (h < 0 && !isLookLeft))
         {
@@ -32,8 +39,9 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(new Vector2(0, jumpForce));
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !isAttack)
         {
+            isAttack = true;
             playerAnimator.SetTrigger("attack");
         }
 
@@ -42,6 +50,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetInteger("horizontal", (int)h);
         playerAnimator.SetBool("isGrounded", isGrounded);
         playerAnimator.SetFloat("speedY", speedY);
+        playerAnimator.SetBool("isAttack", isAttack);
     }
     private void FixedUpdate()
     {
@@ -53,5 +62,16 @@ public class PlayerController : MonoBehaviour
         isLookLeft = !isLookLeft;
         float x = transform.localScale.x * -1;
         transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z);
+    }
+
+    private void OnEndAttack()
+    {
+        isAttack = false;
+    }
+
+    private void HitBoxAttack()
+    {
+        GameObject hitBoxTemp = Instantiate(hitBoxPrefab, mao.position, transform.localRotation);
+        Destroy(hitBoxTemp, 0.2f);
     }
 }
