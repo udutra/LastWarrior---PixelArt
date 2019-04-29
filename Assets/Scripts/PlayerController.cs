@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameController _gameController;
     private Rigidbody2D playerRb;
+    private SpriteRenderer playerSr;
     public float speed, jumpForce;
     public bool isLookLeft, isGrounded;
     public Animator playerAnimator;
     public Transform groundCheck, mao;
     public bool isAttack;
     public GameObject hitBoxPrefab;
-    private GameController _gameController;
+    public Color hitColor, noHitColor;
+    public int maxHP;
 
     private void Start()
     {
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
         _gameController.playerTransformer = this.transform;
         playerRb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
+        playerSr = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -71,7 +75,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(col.gameObject.tag == "Damage")
         {
-            print("Dano");
+            StartCoroutine("DamageController");
         }
     }
 
@@ -98,5 +102,29 @@ public class PlayerController : MonoBehaviour
         _gameController.PlaySFX(_gameController.sfxStep[Random.Range(0, _gameController.sfxStep.Length)], 1f);
     }
 
-    
+    private IEnumerator DamageController()
+    {
+        _gameController.PlaySFX(_gameController.sfxDamage,0.5f);
+
+        maxHP -= 1;
+
+        if(maxHP <= 0)
+        {
+            Debug.LogError("Fim");
+        }
+
+        this.gameObject.layer = LayerMask.NameToLayer("Invensivel");
+        playerSr.color = hitColor;
+        yield return new WaitForSeconds(0.2f);
+        playerSr.color = noHitColor;
+        for (int i = 0; i < 5; i++)
+        {
+            playerSr.enabled = false;
+            yield return new WaitForSeconds(0.3f);
+            playerSr.enabled = true;
+            yield return new WaitForSeconds(0.3f);
+        }
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
+        playerSr.color = Color.white;
+    }
 }

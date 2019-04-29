@@ -47,7 +47,7 @@ public class SlimeIA : MonoBehaviour
             h = 0;
             StopCoroutine("SlimeWalk");
             Destroy(hitBox);
-            _gameController.PlaySFX(_gameController.sfxEnemyDeath, 0.2f);
+            _gameController.PlaySFX(_gameController.sfxEnemyDeath, 0.3f);
             slimeAnimator.SetTrigger("dead");
         }
     }

@@ -798,6 +798,7 @@ MonoBehaviour:
   sfxAttack: {fileID: 8300000, guid: 61a513ba91f83f242898020f63232842, type: 3}
   sfxCoin: {fileID: 8300000, guid: 1d089727d56b4a144a89759b01c4af10, type: 3}
   sfxEnemyDeath: {fileID: 8300000, guid: b54d56686794c5e46bb8466d924c8334, type: 3}
+  sfxDamage: {fileID: 8300000, guid: 2811fcb59b22ea443ae5e6edc44a59c7, type: 3}
   sfxStep:
   - {fileID: 8300000, guid: ebaab09e747d89645985d15e5354ce1b, type: 3}
   - {fileID: 8300000, guid: 87598932546673843b367d2eb38e393e, type: 3}
@@ -946,7 +947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 523342304}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: "M\xE3o"
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -2668,6 +2669,8 @@ MonoBehaviour:
   isAttack: 0
   hitBoxPrefab: {fileID: 845386481244903364, guid: 9c09b0db5488ed04eb7b7fcf6741acc2,
     type: 3}
+  hitColor: {r: 1, g: 0.38, b: 0.38, a: 1}
+  noHitColor: {r: 1, g: 1, b: 1, a: 0.7058824}
 --- !u!95 &1525116485
 Animator:
   serializedVersion: 3
@@ -3073,6 +3076,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6197614014230568878, guid: d15a26f57fa6b9844b897d744ed72816,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6197614014230568881, guid: d15a26f57fa6b9844b897d744ed72816,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3458,7 +3466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1927097207}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -3771,6 +3779,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197614014230568878, guid: d15a26f57fa6b9844b897d744ed72816,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6197614014230568881, guid: d15a26f57fa6b9844b897d744ed72816,
         type: 3}

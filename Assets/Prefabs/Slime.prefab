@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6197614014564367738}
   - component: {fileID: 6197614014564367737}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HitBox
   m_TagString: Damage
   m_Icon: {fileID: 0}
