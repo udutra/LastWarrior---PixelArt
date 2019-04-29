@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlimeIA : MonoBehaviour
 {
-    private GameController _gameController;
+    private GameController _GameController;
     private Rigidbody2D slimeRb;
     private Animator slimeAnimator;
     private int h;
@@ -14,7 +14,7 @@ public class SlimeIA : MonoBehaviour
 
     void Start()
     {
-        _gameController = FindObjectOfType(typeof(GameController)) as GameController;
+        _GameController = FindObjectOfType(typeof(GameController)) as GameController;
         slimeRb = GetComponent<Rigidbody2D>();
         slimeAnimator = GetComponent<Animator>();
         StartCoroutine("SlimeWalk");
@@ -22,7 +22,11 @@ public class SlimeIA : MonoBehaviour
 
     void Update()
     {
-        
+        if (_GameController.currentState != GameState.GAMEPLAY)
+        {
+            return;
+        }
+
         if ((h > 0 && isLookLeft) || (h < 0 && !isLookLeft))
         {
             Flip();
@@ -47,7 +51,7 @@ public class SlimeIA : MonoBehaviour
             h = 0;
             StopCoroutine("SlimeWalk");
             Destroy(hitBox);
-            _gameController.PlaySFX(_gameController.sfxEnemyDeath, 0.3f);
+            _GameController.PlaySFX(_GameController.sfxEnemyDeath, 0.3f);
             slimeAnimator.SetTrigger("dead");
         }
     }

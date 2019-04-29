@@ -1,4 +1,4 @@
 ﻿public enum MusicaFase
 {
-    FLORESTA, CAVERNA
+    FLORESTA, CAVERNA, GAMEOVER, THEEND
 }

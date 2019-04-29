@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MorcegoIA : MonoBehaviour
 {
-    private GameController _gameController;
+    private GameController _GameController;
     private Animator morcegoAnimator;
     private bool isFolow;
     public bool isLookLeft;
@@ -13,22 +13,27 @@ public class MorcegoIA : MonoBehaviour
 
     void Start()
     {
-        _gameController = FindObjectOfType(typeof(GameController)) as GameController;
+        _GameController = FindObjectOfType(typeof(GameController)) as GameController;
         morcegoAnimator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (isFolow)
+        if (_GameController.currentState != GameState.GAMEPLAY)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _gameController.playerTransformer.position, speed * Time.deltaTime);
+            return;
         }
 
-        if(transform.position.x < _gameController.playerTransformer.position.x && isLookLeft)
+        if (isFolow)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _GameController.playerTransformer.position, speed * Time.deltaTime);
+        }
+
+        if(transform.position.x < _GameController.playerTransformer.position.x && isLookLeft)
         {
             Flip();
         }
-        else if(transform.position.x > _gameController.playerTransformer.position.x && !isLookLeft)
+        else if(transform.position.x > _GameController.playerTransformer.position.x && !isLookLeft)
         {
             Flip();
         }
@@ -41,7 +46,7 @@ public class MorcegoIA : MonoBehaviour
         {
             isFolow = false;
             Destroy(hitBox);
-            _gameController.PlaySFX(_gameController.sfxEnemyDeath, 0.3f);
+            _GameController.PlaySFX(_GameController.sfxEnemyDeath, 0.3f);
             morcegoAnimator.SetTrigger("dead");
         }
     }

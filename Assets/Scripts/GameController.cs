@@ -1,29 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public Transform playerTransformer;
+    
     private Transform cam;
 
-    public Transform limiteCamEsq, limiteCamDir, limiteCamSup, limiteCamBai;
+    public GameState currentState;
+    public GameObject painelTitulo, painelGameOver, painelEnd;
+    public GameObject[] fase;
+    public Transform playerTransformer, limiteCamEsq, limiteCamDir, limiteCamSup, limiteCamBai;
     public float speedCam;
 
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioSource musicSource;
-    public AudioClip sfxJump, sfxAttack, sfxCoin, sfxEnemyDeath, sfxDamage, musicFloresta, musicCaverna;
+    public AudioClip sfxJump, sfxAttack, sfxCoin, sfxEnemyDeath, sfxDamage, musicFloresta, musicCaverna, musicGameOver, musicFim;
     public AudioClip[] sfxStep;
     public MusicaFase musicaAtual;
 
-    public GameObject[] fase;
-
-
+    public int moedasColetadas, vida;
+    public Text moedasTxt;
+    public Image[] coracoes;
     
     private void Start()
     {
         cam = Camera.main.transform;
+        HeartController();
+    }
+
+    private void Update()
+    {
+        if(currentState == GameState.TITULO && Input.GetKeyDown(KeyCode.Space))
+        {
+            currentState = GameState.GAMEPLAY;
+            painelTitulo.SetActive(false);
+        }
+
+        else if ((currentState == GameState.GAMEOVER || currentState == GameState.END) && Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void LateUpdate()
@@ -79,6 +99,16 @@ public class GameController : MonoBehaviour
                     clip = musicCaverna;
                     break;
                 }
+            case MusicaFase.GAMEOVER:
+                {
+                    clip = musicGameOver;
+                    break;
+                }
+            case MusicaFase.THEEND:
+                {
+                    clip = musicFim;
+                    break;
+                }
         }
         StartCoroutine("ControleMusica", clip);
     }
@@ -101,5 +131,53 @@ public class GameController : MonoBehaviour
             musicSource.volume = volume;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void GetHit()
+    {
+        vida -= 1;
+        HeartController();
+        if(vida <= 0)
+        {
+            playerTransformer.transform.gameObject.SetActive(false);
+            painelGameOver.SetActive(true);
+            currentState = GameState.GAMEOVER;
+            TrocarMusica(MusicaFase.GAMEOVER);
+        }
+    }
+
+    public void GetCoin()
+    {
+        moedasColetadas += 1;
+        moedasTxt.text = moedasColetadas.ToString();
+    }
+
+    public void HeartController()
+    {
+        foreach (Image h in coracoes)
+        {
+            h.enabled = false;
+        }
+        for (int v = 0; v < vida; v++)
+        {
+            coracoes[v].enabled = true;
+        }
+    }
+
+    public void GameOver()
+    {
+        PlaySFX(sfxDamage, 0.5f);
+        vida = 0;
+        HeartController();
+        painelGameOver.SetActive(true);
+        currentState = GameState.GAMEOVER;
+        TrocarMusica(MusicaFase.GAMEOVER);
+    }
+
+    public void TheEnd()
+    {
+        currentState = GameState.END;
+        painelEnd.SetActive(true);
+        TrocarMusica(MusicaFase.THEEND);
     }
 }
