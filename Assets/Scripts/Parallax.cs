@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    public Transform background;
-    public float speed;
     private Transform cam; 
     private Vector3 previewCamPosition;
+    public Transform background;
+    public float speed;
 
     private void Start()
     {

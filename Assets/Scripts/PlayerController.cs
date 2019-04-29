@@ -62,6 +62,19 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.02f);
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.tag == "Coletavel")
+        {
+            _gameController.PlaySFX(_gameController.sfxCoin, 0.5f);
+            Destroy(col.gameObject);
+        }
+        else if(col.gameObject.tag == "Damage")
+        {
+            print("Dano");
+        }
+    }
+
     private void Flip()
     {
         isLookLeft = !isLookLeft;
@@ -84,4 +97,6 @@ public class PlayerController : MonoBehaviour
     {
         _gameController.PlaySFX(_gameController.sfxStep[Random.Range(0, _gameController.sfxStep.Length)], 1f);
     }
+
+    
 }
