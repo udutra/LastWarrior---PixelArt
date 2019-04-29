@@ -13,10 +13,14 @@ public class GameController : MonoBehaviour
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioSource musicSource;
-    public AudioClip sfxJump, sfxAttack, sfxCoin, sfxEnemyDeath, sfxDamage;
+    public AudioClip sfxJump, sfxAttack, sfxCoin, sfxEnemyDeath, sfxDamage, musicFloresta, musicCaverna;
     public AudioClip[] sfxStep;
+    public MusicaFase musicaAtual;
+
+    public GameObject[] fase;
 
 
+    
     private void Start()
     {
         cam = Camera.main.transform;
@@ -58,5 +62,44 @@ public class GameController : MonoBehaviour
     public void PlaySFX(AudioClip sfxClip, float volume)
     {
         sfxSource.PlayOneShot(sfxClip, volume);
+    }
+
+    public void TrocarMusica(MusicaFase novaMusica)
+    {
+        AudioClip clip = null;
+        switch (novaMusica)
+        {
+            case MusicaFase.FLORESTA:
+                {
+                    clip = musicFloresta;
+                    break;
+                }
+            case MusicaFase.CAVERNA:
+                {
+                    clip = musicCaverna;
+                    break;
+                }
+        }
+        StartCoroutine("ControleMusica", clip);
+    }
+
+    private IEnumerator ControleMusica(AudioClip musica)
+    {
+        float volumeMaximo = musicSource.volume;
+
+        for (float volume = volumeMaximo; volume > 0; volume -= 0.01f)
+        {
+            musicSource.volume = volume;
+            yield return new WaitForEndOfFrame();
+        }
+
+        musicSource.clip = musica;
+        musicSource.Play();
+
+        for (float volume = 0; volume < volumeMaximo; volume += 0.01f)
+        {
+            musicSource.volume = volume;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
